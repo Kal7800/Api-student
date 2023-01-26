@@ -24,14 +24,13 @@ class Student{
     }
  
     async updateStudent(userId,changes){
-        const updateStudnet = await sequelize.query(`update students
-         set name ='${changes.name}', birth_day='${changes.birth}, adress='${changes.adress}' where id='${userId}'`)
+        const updateStudnet = await sequelize.query(`update students set name='${changes.name}', birth_day='${changes.birth}, adress=${changes.adress} where id='${userId}'`)
          return updateStudnet
     }
 
     async deleteStudent(userId){
        const deleteStudent = await sequelize.query(`delete from students where id='${userId}'`)
-       return deleteStudent
+       return  true
     }
 
 }

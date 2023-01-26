@@ -17,12 +17,24 @@ router.get('/', async (req,res)=>{
     }
 })
 
+router.get('/:id', async (req,res)=>{
+    try {
+       const {id} = req.params
+       const [student] = await studentService.findOne(id)
+       res.status(200).json(student)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+})
+
 
 router.post('/', async (req,res)=>{
     try {
         const body = req.body;
-        const [results,metadata] = await studentService.createStudent(body);
-        res.status(201).json(results)
+        const results = await studentService.createStudent(body);
+        res.status(201).json(body)
     } catch (error) {
         res.status(500).json({
             message: error.message
@@ -35,7 +47,6 @@ router.put('/:id', async (req,res)=>{
         const changes = req.body
         const {id} = req.params
         const [results,metadata] = studentService.updateStudent(id,changes)
-        console.log(results)
         res.status(200).json(results)
     } catch (error) {
         res.status(500).json({
@@ -47,7 +58,7 @@ router.put('/:id', async (req,res)=>{
 router.delete('/:id', async (req,res)=>{
     try {
         const {id}= req.params
-        const [results] = studentService.deleteStudent(id)
+        const results = studentService.deleteStudent(id)
         res.status(200).json(results)
     } catch (error) {
         res.status(500).json({
